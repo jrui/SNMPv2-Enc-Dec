@@ -5,7 +5,7 @@ CFLAGS += $(ASN_MODULE_CFLAGS) -DASN_PDU_COLLECTION -I.
 ASN_LIBRARY ?= libasncodec.a
 ASN_PROGRAM ?= decoder
 ASN_PROGRAM_SRCS ?= \
-	decoder.c\
+	decoding.c\
 	pdu_collection.c
 
 all: $(ASN_PROGRAM)
