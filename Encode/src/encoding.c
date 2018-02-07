@@ -38,15 +38,18 @@ int main(int argc, char const *argv[]) {
   VarBind_t *var_bind;
   var_bind = calloc(1, sizeof(VarBind_t));
   var_bind->name = *object_name;
-  var_bind->choice.present = choice_PR_value;
-  var_bind->choice.choice.value = *object_syntax;
+  //var_bind->choice.present = choice_PR_value;
+  var_bind->choice.present = choice_PR_unSpecified;
+
+  //var_bind->choice.choice.value = *object_syntax;
+  var_bind->choice.choice.unSpecified = 1;
 
   VarBindList_t *varlist;
   varlist = calloc(1, sizeof(VarBindList_t));
   int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
 
   SetRequest_PDU_t *setRequestPDU;
-  long requestID;
+  long requestID = 1;
   setRequestPDU = calloc(1, sizeof(PDU_t));
   setRequestPDU->request_id = requestID;
   setRequestPDU->error_index = 0;
@@ -62,9 +65,11 @@ int main(int argc, char const *argv[]) {
   //buffer -> guardada a mensagem
   //ret.encoded -> nymero de bytes, -1 para erro
   //ret.failed_type -> tipos que nao foram codificados
-  uint8_t *buffer;
-  size_t buffer_size;
+  uint8_t *buffer = malloc(sizeof(uint8_t) * 1024);
+  size_t buffer_size = 1024;
   asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_PDUs, pdu, buffer, buffer_size);
+
+  //printf("\n\n%d\n\n", ret.encoded);
 
   ANY_t *data;
   data = calloc(1, sizeof(ANY_t));
@@ -72,27 +77,38 @@ int main(int argc, char const *argv[]) {
   data->size = ret.encoded;
 
   long version = 2;
-  OCTET_STRING_t community;
+  char string[128];
+  strcpy(string, "public");
+  OCTET_STRING_t *community;
+  community = malloc(sizeof(OCTET_STRING_t));
+  OCTET_STRING_fromString(community, string);
   Message_t *message;
   message = calloc(1, sizeof(Message_t));
   message->version = version;
-  message->community = community;
+  message->community = *community;
   message->data = *data;
 
-  uint8_t *buffer_final;
-  size_t buffer_final_size;
-  ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
+  uint8_t *buffer_final = malloc(sizeof(uint8_t) * 1024);
+  size_t buffer_final_size = 1024;
+  asn_enc_rval_t ret2 = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
 
+  FILE *fp = stdout;
+  xer_fprint(fp, &asn_DEF_Message, message);
 
-  int port = 9999;
-  const char *ip = "localhost";
+  int port;
+  const char ip[15];
+  printf("Please insert target IP: ");
+  scanf("%s", &ip);
+  printf("Please insert target Port: ");
+  scanf("%d", &port);
+
   struct sockaddr_in addr;
   addr.sin_family = AF_INET;
   addr.sin_port = htons(port);
   addr.sin_addr.s_addr = inet_addr(ip);
   int sock = socket(AF_INET, SOCK_DGRAM, 0);
   socklen_t udp_socket_size = sizeof(addr);
-  int sent = sendto(sock, buffer, buffer_size, 0, (struct sockaddr *)&addr, udp_socket_size);
+  int sent = sendto(sock, buffer_final, buffer_final_size, 0, (struct sockaddr *)&addr, udp_socket_size);
 
   return 0;
 }
