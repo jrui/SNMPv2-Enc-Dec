@@ -20,7 +20,7 @@ SimpleSyntax_t* createSimpleString(char* stringValue) {
         return simple;
     }
     simple -> present = SimpleSyntax_PR_string_value;
-    simple -> choice.string_value = octetString;
+    simple -> choice.string_value = *octetString;
     return simple;
 }
 

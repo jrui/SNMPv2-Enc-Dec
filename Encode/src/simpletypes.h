@@ -24,3 +24,5 @@ Returns SimpleSyntax_t with the Object identifier
 received as argument.
 */
 SimpleSyntax_t* createSimpleObjectID(OBJECT_IDENTIFIER_t oid);
+
+#endif
