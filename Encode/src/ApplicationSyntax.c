@@ -104,4 +104,3 @@ asn_TYPE_descriptor_t asn_DEF_ApplicationSyntax = {
 	6,	/* Elements count */
 	&asn_SPC_ApplicationSyntax_specs_1	/* Additional specs */
 };
-

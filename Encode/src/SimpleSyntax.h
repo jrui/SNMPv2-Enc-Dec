@@ -36,7 +36,7 @@ typedef struct SimpleSyntax {
 		OCTET_STRING_t	 string_value;
 		OBJECT_IDENTIFIER_t	 objectID_value;
 	} choice;
-	
+
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
 } SimpleSyntax_t;
