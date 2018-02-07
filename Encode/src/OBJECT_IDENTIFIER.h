@@ -112,7 +112,6 @@ int OBJECT_IDENTIFIER_set_arcs(OBJECT_IDENTIFIER_t *oid,
  * RETURN VALUES:
  *   -1:	Parse error.
  * >= 0:	Number of arcs contained in the OBJECT IDENTIFIER.
- * 
  * WARNING: The function always returns the real number of arcs,
  * even if there is no sufficient (arc_slots) provided.
  * This is useful for (arc_slots) value estimation.
