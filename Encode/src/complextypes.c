@@ -1,7 +1,7 @@
 
 #include <complextypes.h>
 
-ApplicationSyntax* createNothing() {
+ApplicationSyntax_t* createNothing() {
     ApplicationSyntax *res;
 
 //    res -> present = ApplicationSyntax_PR_ipAddress_value;
@@ -9,7 +9,7 @@ ApplicationSyntax* createNothing() {
     return res;
 }
 
-ApplicationSyntax* createIpAddress(char* ipAddress) {
+ApplicationSyntax_t* createIpAddress(char* ipAddress) {
     ApplicationSyntax *res;
     int size = strlen(ipAddress);
     OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
