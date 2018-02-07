@@ -3,9 +3,9 @@ include Makefile.am.libasncodec
 LIBS += -lm
 CFLAGS += $(ASN_MODULE_CFLAGS) -DASN_PDU_COLLECTION -I.
 ASN_LIBRARY ?= libasncodec.a
-ASN_PROGRAM ?= converter-example
+ASN_PROGRAM ?= encoder
 ASN_PROGRAM_SRCS ?= \
-	converter-example.c\
+	encoding.c\
 	pdu_collection.c
 
 all: $(ASN_PROGRAM)
@@ -30,4 +30,3 @@ regen: regenerate-from-asn1-source
 
 regenerate-from-asn1-source:
 	../../asn1c/asn1c/asn1c ../RFC1901/RFC1901.asn1 ../RFC3416/RFC3416.asn1
-
