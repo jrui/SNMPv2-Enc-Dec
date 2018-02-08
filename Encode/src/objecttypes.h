@@ -3,7 +3,6 @@
 
 #include <ObjectSyntax.h>
 #include <ObjectName.h>
-#include <OCTET_STRING.h>
 
 
 /**

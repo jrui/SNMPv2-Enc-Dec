@@ -9,6 +9,7 @@ ASN_PROGRAM_SRCS ?= \
 	encoder.c\
 	simpletypes.c\
 	objecttypes.c\
+	bindingtypes.c\
 	pdu_collection.c
 
 all: $(ASN_PROGRAM)
@@ -32,4 +33,4 @@ clean:
 regen: regenerate-from-asn1-source
 
 regenerate-from-asn1-source:
-	../../asn1c/asn1c/asn1c ../RFC1901/RFC1901.asn1 ../RFC3416/RFC3416.asn1
+	asn1c ../RFC1901/RFC1901.asn1 ../RFC3416/RFC3416.asn1
