@@ -8,6 +8,7 @@ ASN_PROGRAM_SRCS ?= \
 	encoding.c\
 	encoder.c\
 	simpletypes.c\
+	objecttypes.c\
 	pdu_collection.c
 
 all: $(ASN_PROGRAM)
