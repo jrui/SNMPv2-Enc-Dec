@@ -10,6 +10,7 @@ ASN_PROGRAM_SRCS ?= \
 	simpletypes.c\
 	objecttypes.c\
 	bindingtypes.c\
+	pdutypes.c\
 	pdu_collection.c
 
 all: $(ASN_PROGRAM)

@@ -18,59 +18,27 @@
 //Test includes
 #include <bindingtypes.h>
 #include <objecttypes.h>
+#include <pdutypes.h>
+#include <simpletypes.h>
+
 
 
 int main(int argc, char const *argv[]) {
-  SimpleSyntax_t *simple;
-  long integer_value;
-  simple = calloc(1, sizeof(SimpleSyntax_t));
-  simple->present = SimpleSyntax_PR_integer_value;
-  simple->choice.integer_value = integer_value;
+  SimpleSyntax_t *simple = createSimpleInteger((long) 10);
+  ObjectSyntax_t *object_syntax = create_ObjSynt_Simple(simple);
 
-  ObjectSyntax_t *object_syntax;
-  /*object_syntax = calloc(1, sizeof(ObjectSyntax_t));
-  object_syntax->present = ObjectSyntax_PR_simple;
-  object_syntax->choice.simple = *simple;
-*/
-  object_syntax = create_ObjSynt_Simple(simple);
+  uint8_t *name = "a"; size_t name_size = 1;
+  ObjectName_t *object_name = create_ObjectName(name, name_size);
 
-  uint8_t *name = "a";
-  size_t name_size = 1;
-  ObjectName_t *object_name;
-  /*object_name = calloc(1, sizeof(ObjectName_t));
-  object_name->buf = name;
-  object_name->size = name_size;
-*/
-  object_name = create_ObjectName(name, name_size);
-
-  /*VarBind_t *var_bind;
-  NULL_t nullt = 1;
-  var_bind = calloc(1, sizeof(VarBind_t));
-  var_bind->name = *object_name;
-  //var_bind->choice.present = choice_PR_value;
-  var_bind->choice.present = choice_PR_unSpecified;
-  //var_bind->choice.choice.value = *object_syntax;
-  var_bind->choice.choice.unSpecified = nullt;
-*/
-  VarBind_t *var_bind;
   NULL_t nullt = (NULL_t) 1;
-  var_bind = create_VarBind_unSpecified(object_name, nullt);
+  VarBind_t *var_bind = create_VarBind_unSpecified(object_name, nullt);
+  VarBindList_t *varlist = create_VarBindList(var_bind);
 
-  /*VarBindList_t *varlist;
-  varlist = calloc(1, sizeof(VarBindList_t));
-  int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-*/
-  VarBindList_t *varlist;
-  varlist = create_VarBindList(var_bind);
+  SetRequest_PDU_t *setRequestPDU = create_SetRequestPDU(1, 0, 0, varlist);
 
 
-  SetRequest_PDU_t *setRequestPDU;
-  long requestID = 1;
-  setRequestPDU = calloc(1, sizeof(PDU_t));
-  setRequestPDU->request_id = requestID;
-  setRequestPDU->error_index = 0;
-  setRequestPDU->error_status = 0;
-  setRequestPDU->variable_bindings = *varlist;
+//FALTA IMPLEMENTAR PDUs_t
+
 
   //present -> indica o tipo do CPU
   PDUs_t *pdu;
