@@ -13,7 +13,7 @@
 ApplicationSyntax_t* createNothing();
 
 /**
-* Funtion that creates an ApplicationSyntax_t with an IpAddress_t
+* Function that creates an ApplicationSyntax_t with an IpAddress_t
 * and returns a pointer to it.
 * @params ipAddress - string that specifies the ipAddress
 *                    ("192.136.23.23" or "localhost" for example)
@@ -48,6 +48,13 @@ ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size);
 */
 ApplicationSyntax_t* createUnsigned32(unsigned long value);
 
-
+/**
+* Function that creates an ApplicationSyntax_t with an Opaque_t
+* and returns a pointer to it.
+* @params value - string that specifies the Opaque_t(aka OCTET_STRING_t)
+* @returns ApplicationSyntax_t pointer to NOTHING if the string is not valid
+*          or to an ApplicationSyntax_t with the given Opaque_t value
+*/
+ApplicationSyntax_t* createOpaque(char* value);
 
 #endif

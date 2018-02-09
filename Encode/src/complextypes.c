@@ -71,4 +71,17 @@ ApplicationSyntax_t* createUnsigned32(unsigned long value) {
     return res;
 }
 
-// TO DO OPAQUE
+ApplicationSyntax_t* createOpaque(char* value) {
+    ApplicationSyntax_t *res = allocate();
+    // As Opaque_t is the same as OCTET_STRING_t, let's create one
+    int size = strlen(value);
+    OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
+    int code = OCTET_STRING_fromString(octetString, code);
+    if(code < 0) {
+        res -> present = ApplicationSyntax_PR_NOTHING;
+        return res;
+    }
+    res -> present = ApplicationSyntax_PR_arbitrary_value;
+    res -> choice.arbitrary_value = (Opaque_t) *octetString;
+    return res;
+}
