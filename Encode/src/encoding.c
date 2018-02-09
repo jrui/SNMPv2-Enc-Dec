@@ -23,29 +23,19 @@
 #include <simpletypes.h>
 
 
-
 int main(int argc, char const *argv[]) {
-  SimpleSyntax_t *simple = createSimpleInteger((long) 10);
+  /*SimpleSyntax_t *simple = createSimpleInteger((long) 10);
   ObjectSyntax_t *object_syntax_s = create_ObjSynt_Simple(simple);
-
+*/
   ApplicationSyntax_t *application_s = createIpAddress("127.0.0.1");
   ObjectSyntax_t *object_syntax_a = create_ObjSynt_Application(application_s);
-
 
   ObjectName_t *object_name = create_ObjectName("1.0.2", 5);
   VarBind_t *var_bind = create_VarBind_Value(object_name, object_syntax_a);
   VarBindList_t *varlist = create_VarBindList(var_bind);
   SetRequest_PDU_t *setRequestPDU = create_SetRequestPDU(1, 0, 0, varlist);
+  PDUs_t *pdu = create_PDUs_SetRequest(setRequestPDU);
 
-
-//FALTA IMPLEMENTAR PDUs_t
-
-
-  //present -> indica o tipo do CPU
-  PDUs_t *pdu;
-  pdu = calloc(1, sizeof(PDUs_t));
-  pdu->present = PDUs_PR_set_request;
-  pdu->choice.set_request = *setRequestPDU;
 
   //buffer -> guardada a mensagem
   //ret.encoded -> nymero de bytes, -1 para erro
@@ -54,7 +44,6 @@ int main(int argc, char const *argv[]) {
   size_t buffer_size = 1024;
   asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_PDUs, pdu, buffer, buffer_size);
 
-  //printf("\n\n%d\n\n", ret.encoded);
 
   ANY_t *data;
   data = calloc(1, sizeof(ANY_t));
