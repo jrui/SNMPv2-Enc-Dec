@@ -8,6 +8,7 @@ ASN_PROGRAM_SRCS ?= \
 	encoding.c\
 	encoder.c\
 	simpletypes.c\
+	complextypes.c\
 	objecttypes.c\
 	bindingtypes.c\
 	pdu_collection.c
