@@ -5,6 +5,7 @@
 #include <ObjectName.h>
 #include <ObjectSyntax.h>
 #include <VarBind.h>
+#include <VarBindList.h>
 
 
 /**
@@ -33,10 +34,18 @@ VarBind_t *create_VarBind_Value(ObjectName_t *on, ObjectSyntax_t *os);
 * @param os - NULL_t
 * @return - Pointer to the new VarBind_t variable
 **/
-VarBind_t *create_VarBind_unSpecified(ObjectName_t *on, NULL_t *n);
-VarBind_t *create_VarBind_noSuchObject(ObjectName_t *on, NULL_t *n);
-VarBind_t *create_VarBind_noSuchInstance(ObjectName_t *on, NULL_t *n);
-VarBind_t *create_VarBind_endOfMibView(ObjectName_t *on, NULL_t *n);
+VarBind_t *create_VarBind_unSpecified(ObjectName_t *on, NULL_t n);
+VarBind_t *create_VarBind_noSuchObject(ObjectName_t *on, NULL_t n);
+VarBind_t *create_VarBind_noSuchInstance(ObjectName_t *on, NULL_t n);
+VarBind_t *create_VarBind_endOfMibView(ObjectName_t *on, NULL_t n);
 
+
+/**
+*   Function that returns a new VarBindList, with one VarBind
+* element associated.
+* @param vb - The first VarBindof the VarbindList
+* @return - Pointer to the new VarBindList created
+**/
+VarBindList_t *create_VarBindList(VarBind_t *vb);
 
 #endif
