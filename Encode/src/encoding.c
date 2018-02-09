@@ -17,6 +17,7 @@
 
 //Test includes
 #include <bindingtypes.h>
+#include <complextypes.h>
 #include <objecttypes.h>
 #include <pdutypes.h>
 #include <simpletypes.h>
@@ -25,15 +26,15 @@
 
 int main(int argc, char const *argv[]) {
   SimpleSyntax_t *simple = createSimpleInteger((long) 10);
-  ObjectSyntax_t *object_syntax = create_ObjSynt_Simple(simple);
+  ObjectSyntax_t *object_syntax_s = create_ObjSynt_Simple(simple);
 
-  uint8_t *name = "a"; size_t name_size = 1;
-  ObjectName_t *object_name = create_ObjectName(name, name_size);
+  ApplicationSyntax_t *application_s = createIpAddress("127.0.0.1");
+  ObjectSyntax_t *object_syntax_a = create_ObjSynt_Application(application_s);
 
-  NULL_t nullt = (NULL_t) 1;
-  VarBind_t *var_bind = create_VarBind_unSpecified(object_name, nullt);
+
+  ObjectName_t *object_name = create_ObjectName("1.0.2", 5);
+  VarBind_t *var_bind = create_VarBind_Value(object_name, object_syntax_a);
   VarBindList_t *varlist = create_VarBindList(var_bind);
-
   SetRequest_PDU_t *setRequestPDU = create_SetRequestPDU(1, 0, 0, varlist);
 
 
