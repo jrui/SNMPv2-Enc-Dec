@@ -76,7 +76,7 @@ ApplicationSyntax_t* createOpaque(char* value) {
     // As Opaque_t is the same as OCTET_STRING_t, let's create one
     int size = strlen(value);
     OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
-    int code = OCTET_STRING_fromString(octetString, code);
+    int code = OCTET_STRING_fromString(octetString, value);
     if(code < 0) {
         res -> present = ApplicationSyntax_PR_NOTHING;
         return res;
@@ -84,4 +84,14 @@ ApplicationSyntax_t* createOpaque(char* value) {
     res -> present = ApplicationSyntax_PR_arbitrary_value;
     res -> choice.arbitrary_value = (Opaque_t) *octetString;
     return res;
+}
+
+
+ANY_t *create_ANY(uint8_t *buf, int size) {
+  ANY_t *ret;
+  ret = calloc(1, sizeof(ANY_t));
+  ret->buf = buf;
+  ret->size = size;
+
+  return ret;
 }

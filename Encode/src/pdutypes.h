@@ -17,7 +17,6 @@
 
 
 
-
 /**
 *   Function that creates an PDU element, and returns
 * the pointer to the generated structure. This Function
@@ -64,25 +63,6 @@ SetRequest_PDU_t *create_SetRequestPDU(long ri,
 
 SNMPv2_Trap_PDU_t *create_SNMPv2TrapPDU(long ri,
                 long es, long ei, VarBindList_t *vb);
-
-
-/**
-*   Functions that create the specified PDUs_t, this return types are comprise
-* the more specific PDU_t types. Like both the previous funtions, the following
-* also alocates memory.
-* @param - A given variable PDU_t type to be associated
-* with each one of the PDUs
-* @return - Pointer to the newly generated PDUs_t structure
-**/
-PDUs_t *create_PDUs_Nothing();
-PDUs_t *create_PDUs_GetRequest(GetRequest_PDU_t *gr);
-PDUs_t *create_PDUs_GetNextRequest(GetNextRequest_PDU_t *gnr);
-PDUs_t *create_PDUs_GetBulkRequest(GetBulkRequest_PDU_t *gbr);
-PDUs_t *create_PDUs_Response(Response_PDU_t *r);
-PDUs_t *create_PDUs_SetRequest(SetRequest_PDU_t *sr);
-PDUs_t *create_PDUs_InformRequest(InformRequest_PDU_t *ir);
-PDUs_t *create_PDUs_SNMPV2Trap(SNMPv2_Trap_PDU_t *snmp);
-PDUs_t *create_PDUs_Report(Report_PDU_t *r);
 
 
 #endif

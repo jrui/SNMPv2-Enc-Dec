@@ -4,6 +4,9 @@
 
 #include <OCTET_STRING.h>
 #include <ApplicationSyntax.h>
+#include <ANY.h>
+#include <Message.h>
+
 
 /**
 * Function that creates an ApplicationSyntax_t setting its present
@@ -11,6 +14,7 @@
 * @return Returns an ApplicationSyntax_t with nothing in it
 */
 ApplicationSyntax_t* createNothing();
+
 
 /**
 * Function that creates an ApplicationSyntax_t with an IpAddress_t
@@ -22,6 +26,7 @@ ApplicationSyntax_t* createNothing();
 */
 ApplicationSyntax_t* createIpAddress(char* ipAddress);
 
+
 /**
 * Function that creates an ApplicationSyntax_t with a normal counter
 * (Counter32_t - same as a long), returning a pointer to it.
@@ -29,6 +34,7 @@ ApplicationSyntax_t* createIpAddress(char* ipAddress);
 * @returns ApplicationSyntax_t pointer to the value created
 */
 ApplicationSyntax_t* createCounterValue(long counterValue);
+
 
 /**
 * Function that creates an ApplicationSyntax_t with a big counter
@@ -48,6 +54,7 @@ ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size);
 */
 ApplicationSyntax_t* createUnsigned32(unsigned long value);
 
+
 /**
 * Function that creates an ApplicationSyntax_t with an Opaque_t
 * and returns a pointer to it.
@@ -56,5 +63,16 @@ ApplicationSyntax_t* createUnsigned32(unsigned long value);
 *          or to an ApplicationSyntax_t with the given Opaque_t value
 */
 ApplicationSyntax_t* createOpaque(char* value);
+
+
+/**
+*   Funtion used to create an element ANY_t and return the pointer
+* of that same element.
+* @param buf - The value to be associated with the ANY_t buffer
+* @param size - The size of the previously specified buffer
+* @return - Pointer to the new structure
+*/
+ANY_t *create_ANY(uint8_t *buf, int size);
+
 
 #endif
