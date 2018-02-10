@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
         break;
     }
     sleep(3);
-    printf("\n\n\n\n\n");
+    printf("\e[1;1H\e[2J");
   }
   return 0;
 }
@@ -66,7 +66,7 @@ void read_from_udp(int port) {
       (void **) &message, buffer, recv);
 
   FILE *fp = stdout;
-  //xer_fprint(fp, &asn_DEF_Message, message);
+  xer_fprint(fp, &asn_DEF_Message, message);
   if(rval.consumed == -1) {
     snprintf(buff, 128, "%d\0", rval.code);
     strcpy(buff, strcat("Error decoding, code = ", buff));

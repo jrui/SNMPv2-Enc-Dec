@@ -85,3 +85,13 @@ ApplicationSyntax_t* createOpaque(char* value) {
     res -> choice.arbitrary_value = (Opaque_t) *octetString;
     return res;
 }
+
+
+ANY_t *create_ANY(uint8_t *buf, int size) {
+  ANY_t *ret;
+  ret = calloc(1, sizeof(ANY_t));
+  ret->buf = buf;
+  ret->size = size;
+
+  return ret;
+}

@@ -2,16 +2,19 @@
 #define	_PDUTYPES_H_
 
 #include <BulkPDU.h>
+#include <PDU.h>
+#include <VarBindList.h>
+
 #include <GetBulkRequest-PDU.h>
 #include <GetNextRequest-PDU.h>
 #include <GetRequest-PDU.h>
 #include <InformRequest-PDU.h>
+#include <PDUs.h>
 #include <Report-PDU.h>
 #include <Response-PDU.h>
 #include <SetRequest-PDU.h>
 #include <SNMPv2-Trap-PDU.h>
-#include <PDU.h>
-#include <VarBindList.h>
+
 
 
 /**
@@ -28,6 +31,18 @@
 GetBulkRequest_PDU_t *create_GetBulkRequestPDU(long ri,
                 long nr, long mr, VarBindList_t *vb);
 
+
+/**
+*   Functions that create the specified PDU, this return types are equivalent
+* to the more general type PDU_t, however they are more specific. Like
+* the previously defined funtion, this also alocates memory.
+* @param ri - The Request ID of the PDU
+* @param es - Value of the Error Status element
+* @param ei - Value of the Error Index element
+* @param vb - A given variable binding list to be associated
+* with each one of the PDUs
+* @return - Pointer to the newly generated structure
+**/
 GetNextRequest_PDU_t *create_GetNextRequestPDU(long ri,
                 long es, long ei, VarBindList_t *vb);
 
@@ -48,4 +63,6 @@ SetRequest_PDU_t *create_SetRequestPDU(long ri,
 
 SNMPv2_Trap_PDU_t *create_SNMPv2TrapPDU(long ri,
                 long es, long ei, VarBindList_t *vb);
+
+
 #endif
