@@ -1,7 +1,7 @@
 
 #include <simpletypes.h>
 
-SimpleSyntax_t* createSimpleInteger(long integerValue) {
+SimpleSyntax_t* create_SimpleInteger(long integerValue) {
     SimpleSyntax_t* simple;
     simple = calloc(1, sizeof(SimpleSyntax_t));
     simple -> present = SimpleSyntax_PR_integer_value;
@@ -9,7 +9,7 @@ SimpleSyntax_t* createSimpleInteger(long integerValue) {
     return simple;
 }
 
-SimpleSyntax_t* createSimpleString(char* stringValue) {
+SimpleSyntax_t* create_SimpleString(char* stringValue) {
     SimpleSyntax_t* simple;
     int size = strlen(stringValue);
     OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
@@ -24,7 +24,7 @@ SimpleSyntax_t* createSimpleString(char* stringValue) {
     return simple;
 }
 
-SimpleSyntax_t* createSimpleObjectID(OBJECT_IDENTIFIER_t oid) {
+SimpleSyntax_t* create_SimpleObjectID(OBJECT_IDENTIFIER_t oid) {
     SimpleSyntax_t* simple;
     simple = calloc(1, sizeof(SimpleSyntax_t));
     simple -> present = SimpleSyntax_PR_objectID_value;
