@@ -10,13 +10,13 @@ ApplicationSyntax_t* allocate() {
     return res;
 }
 
-ApplicationSyntax_t* createNothing() {
+ApplicationSyntax_t* create_Nothing() {
     ApplicationSyntax_t *res = allocate();
     res -> present = ApplicationSyntax_PR_NOTHING;
     return res;
 }
 
-ApplicationSyntax_t* createIpAddress(char* ipAddress) {
+ApplicationSyntax_t* create_IpAddress(char* ipAddress) {
     ApplicationSyntax_t *res = allocate();
     OCTET_STRING_t* octetString;
     octetString = (OCTET_STRING_t*) malloc(sizeof(OCTET_STRING_t));
@@ -30,7 +30,7 @@ ApplicationSyntax_t* createIpAddress(char* ipAddress) {
     return res;
 }
 
-ApplicationSyntax_t* createCounterValue(long counterValue) {
+ApplicationSyntax_t* create_CounterValue(long counterValue) {
     ApplicationSyntax_t *res = allocate();
     Counter32_t counter;
     // Counter32_t is a simple long, so it can be casted
@@ -40,7 +40,7 @@ ApplicationSyntax_t* createCounterValue(long counterValue) {
     return res;
 }
 
-ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size) {
+ApplicationSyntax_t* create_BigCounterValue(uint8_t *counterValue, size_t size) {
     ApplicationSyntax_t *res = allocate();
     ASN__PRIMITIVE_TYPE_t *baseType;
     INTEGER_t counter;
@@ -53,7 +53,7 @@ ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size) {
     return res;
 }
 
-ApplicationSyntax_t* createTimeTicks(long timeTicks) {
+ApplicationSyntax_t* create_TimeTicks(long timeTicks) {
     ApplicationSyntax_t *res = allocate();
     // TimeTicks_t is a simple long, so it can be casted
     TimeTicks_t timeTicksValue = (TimeTicks_t) timeTicks;
@@ -62,7 +62,7 @@ ApplicationSyntax_t* createTimeTicks(long timeTicks) {
     return res;
 }
 
-ApplicationSyntax_t* createUnsigned32(unsigned long value) {
+ApplicationSyntax_t* create_Unsigned32(unsigned long value) {
     ApplicationSyntax_t *res = allocate();
     // Unsigned32_t is an unsigned long, so it can be casted
     Unsigned32_t valueRes = (Unsigned32_t) value;
@@ -71,10 +71,10 @@ ApplicationSyntax_t* createUnsigned32(unsigned long value) {
     return res;
 }
 
-ApplicationSyntax_t* createOpaque(char* value) {
+ApplicationSyntax_t* create_Opaque(char* value) {
     ApplicationSyntax_t *res = allocate();
     // As Opaque_t is the same as OCTET_STRING_t, let's create one
-    OCTET_STRING_t* octetString; 
+    OCTET_STRING_t* octetString;
     octetString = (OCTET_STRING_t*) malloc(sizeof(OCTET_STRING_t));
     int code = OCTET_STRING_fromString(octetString, value);
     if(code < 0) {
