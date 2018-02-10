@@ -18,8 +18,8 @@ ApplicationSyntax_t* createNothing() {
 
 ApplicationSyntax_t* createIpAddress(char* ipAddress) {
     ApplicationSyntax_t *res = allocate();
-    int size = strlen(ipAddress);
-    OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
+    OCTET_STRING_t* octetString;
+    octetString = (OCTET_STRING_t*) malloc(sizeof(OCTET_STRING_t));
     int code = OCTET_STRING_fromString(octetString, ipAddress);
     if(code < 0) {
         res -> present = ApplicationSyntax_PR_NOTHING;
@@ -74,8 +74,8 @@ ApplicationSyntax_t* createUnsigned32(unsigned long value) {
 ApplicationSyntax_t* createOpaque(char* value) {
     ApplicationSyntax_t *res = allocate();
     // As Opaque_t is the same as OCTET_STRING_t, let's create one
-    int size = strlen(value);
-    OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
+    OCTET_STRING_t* octetString; 
+    octetString = (OCTET_STRING_t*) malloc(sizeof(OCTET_STRING_t));
     int code = OCTET_STRING_fromString(octetString, value);
     if(code < 0) {
         res -> present = ApplicationSyntax_PR_NOTHING;
