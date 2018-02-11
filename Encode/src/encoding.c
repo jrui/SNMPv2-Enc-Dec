@@ -73,7 +73,8 @@ int main(int argc, char const *argv[]) {
       int sent = sendto(sock, buff, BUFF_SIZE, 0, (struct sockaddr *)&addr, udp_socket_size);
       break;
     case 3:
-      printf("%X\n", buff);
+      for(int i = 0; i < strlen(buff); i++) printf("%X ", buff[i]);
+      printf("\n");
       break;
   }
   return 0;
