@@ -51,7 +51,7 @@ typedef struct PDUs {
 		SNMPv2_Trap_PDU_t	 snmpV2_trap;
 		Report_PDU_t	 report;
 	} choice;
-	
+
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
 } PDUs_t;

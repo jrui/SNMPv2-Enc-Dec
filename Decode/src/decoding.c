@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <ApplicationSyntax.h>
-#include <Message.h>
-#include <PDUs.h>
-#include <SimpleSyntax.h>
+#include <decodetypes.h>
 
 
 int menu();
@@ -42,8 +39,28 @@ int menu() {
   return opt;
 }
 
+void print_Data(FILE *fp) {
+    //print decoded PDU
+}
 
-void read_from_file() {
+void decode_Data(char *buffer, int bs) {
+    DecodeResult_t decMessage;
+    decMessage = decode_Message(buffer, bs);
+    if(decMessage.status.consumed != -1) {
+        FILE *fp = stdout;
+        xer_fprint(fp, &asn_DEF_Message, decMessage.choice.message);
+        DecodeResult_t decPDU = decode_PDU(decMessage.choice.message);
+        if(decPDU.status.consumed != -1) {
+            xer_fprint(fp, &asn_DEF_PDUs, decPDU.choice.pdu);
+        } else {
+            //need to have warnings like no OID
+            perror("decode failed on pdu");
+            //this needs to be better
+        }
+    } else perror("decode failed on message");
+}
+
+void read_from_file(char *fileName) {
   //...
 }
 
@@ -59,28 +76,8 @@ void read_from_udp(int port) {
   int sock = socket(AF_INET, SOCK_DGRAM, 0);
   socklen_t udp_socket_size = sizeof(addr);
   bind(sock, (struct sockaddr *)&addr, udp_socket_size);
-  int recv = recvfrom(sock, buffer, buffer_size, 0, (struct sockaddr *)&addr, &udp_socket_size);
+  int recv = recvfrom(sock, buffer, buffer_size, 0,
+            (struct sockaddr *)&addr, &udp_socket_size);
 
-  Message_t *message = 0;
-  asn_dec_rval_t rval = asn_decode(0, ATS_BER, &asn_DEF_Message,
-      (void **) &message, buffer, recv);
-
-  FILE *fp = stdout;
-  xer_fprint(fp, &asn_DEF_Message, message);
-  if(rval.consumed == -1) {
-    snprintf(buff, 128, "%d\0", rval.code);
-    strcpy(buff, strcat("Error decoding, code = ", buff));
-    printf("%s\n", buff);
-  }
-  else {
-    PDUs_t *pdu = 0;
-    rval = asn_decode(0, ATS_BER, &asn_DEF_PDUs, (void **) &pdu,
-        message->data.buf, message->data.size);
-    if(rval.consumed == -1) {
-      snprintf(buff, 128, "%d\0", rval.code);
-      strcpy(buff, strcat("Error decoding, code = ", buff));
-      printf("%s\n", buff);
-    }
-    else xer_fprint(fp, &asn_DEF_PDUs, pdu);
-  }
+  decode_Data(buffer, recv);
 }

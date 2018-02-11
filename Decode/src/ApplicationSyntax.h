@@ -45,7 +45,7 @@ typedef struct ApplicationSyntax {
 		Counter64_t	 big_counter_value;
 		Unsigned32_t	 unsigned_integer_value;
 	} choice;
-	
+
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
 } ApplicationSyntax_t;

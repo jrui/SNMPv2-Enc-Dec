@@ -43,11 +43,11 @@ typedef struct VarBind {
 			NULL_t	 noSuchInstance;
 			NULL_t	 endOfMibView;
 		} choice;
-		
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
 	} choice;
-	
+
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
 } VarBind_t;

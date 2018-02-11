@@ -48,7 +48,7 @@ typedef struct PDU {
 	long	 error_status;
 	long	 error_index;
 	VarBindList_t	 variable_bindings;
-	
+
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
 } PDU_t;
