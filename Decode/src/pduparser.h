@@ -30,7 +30,7 @@ typedef enum PresentType {
 */
 typedef struct ParsedVarBind {
     Type type;
-    uint8_t *oid;
+    ObjectName_t oid;
     union vbu {
         NULL_t unSpecified;
         NULL_t noSuchObject;
