@@ -13,7 +13,7 @@
 * value to NOTHING and returns a pointer to it.
 * @return Returns an ApplicationSyntax_t with nothing in it
 */
-ApplicationSyntax_t* createNothing();
+ApplicationSyntax_t* create_Nothing();
 
 
 /**
@@ -24,7 +24,7 @@ ApplicationSyntax_t* createNothing();
 * @returns ApplicationSyntax_t pointer to NOTHING if the string is not valid
 *          or to an ApplicationSyntax_t with the given IpAddress value
 */
-ApplicationSyntax_t* createIpAddress(char* ipAddress);
+ApplicationSyntax_t* create_IpAddress(char* ipAddress);
 
 
 /**
@@ -33,7 +33,7 @@ ApplicationSyntax_t* createIpAddress(char* ipAddress);
 * @param counterValue - value of the counter
 * @returns ApplicationSyntax_t pointer to the value created
 */
-ApplicationSyntax_t* createCounterValue(long counterValue);
+ApplicationSyntax_t* create_CounterValue(long counterValue);
 
 
 /**
@@ -43,7 +43,7 @@ ApplicationSyntax_t* createCounterValue(long counterValue);
 * @param size - size of the counter in bytes
 * @returns ApplicationSyntax_t pointer to the value created
 */
-ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size);
+ApplicationSyntax_t* create_BigCounterValue(uint8_t *counterValue, size_t size);
 
 
 /**
@@ -52,7 +52,7 @@ ApplicationSyntax_t* createBigCounterValue(uint8_t *counterValue, size_t size);
 * @param value - unsigned value
 * @returns ApplicationSyntax_t pointer to the value created
 */
-ApplicationSyntax_t* createUnsigned32(unsigned long value);
+ApplicationSyntax_t* create_Unsigned32(unsigned long value);
 
 
 /**
@@ -62,7 +62,7 @@ ApplicationSyntax_t* createUnsigned32(unsigned long value);
 * @returns ApplicationSyntax_t pointer to NOTHING if the string is not valid
 *          or to an ApplicationSyntax_t with the given Opaque_t value
 */
-ApplicationSyntax_t* createOpaque(char* value);
+ApplicationSyntax_t* create_Opaque(char* value);
 
 
 /**

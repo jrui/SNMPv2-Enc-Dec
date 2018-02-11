@@ -11,18 +11,18 @@
 Returns SimpleSyntax_t with the integer
 value received as argument.
 */
-SimpleSyntax_t* createSimpleInteger(long integerValue);
+SimpleSyntax_t* create_SimpleInteger(long integerValue);
 
 /*
 Returns SimpleSyntax_t with the string(char*)
 received as argument.
 */
-SimpleSyntax_t* createSimpleString(char* stringValue);
+SimpleSyntax_t* create_SimpleString(char* stringValue);
 
 /*
 Returns SimpleSyntax_t with the Object identifier
 received as argument.
 */
-SimpleSyntax_t* createSimpleObjectID(OBJECT_IDENTIFIER_t oid);
+SimpleSyntax_t* create_SimpleObjectID(OBJECT_IDENTIFIER_t oid);
 
 #endif
