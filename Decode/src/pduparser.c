@@ -3,15 +3,6 @@
 #include <pduparser.h>
 
 /*
-* Helper function to create array of bytes with the oid
-*/
-uint8_t* getNameFromObjectName(ObjectName_t name) {
-    ASN__PRIMITIVE_TYPE_t aux;
-    aux = (ASN__PRIMITIVE_TYPE_t) name;
-    return name.buf;
-}
-
-/*
 * Helper function to treat SimpleSyntax inside a ObjectSyntax,
 * based on what's inside
 */
@@ -21,7 +12,7 @@ ParsedVarBind_t* treatSimpleSyntax(VarBind_t *var_bind) {
     SimpleSyntax_t simpleSyn = obj.choice.simple;
     long integerValue;
     char *string;
-    result -> oid = getNameFromObjectName(var_bind -> name);
+    result -> oid = var_bind -> name;
     switch (simpleSyn.present) {
         case SimpleSyntax_PR_NOTHING:
             result -> type = NOTHING;
@@ -56,7 +47,7 @@ ParsedVarBind_t* treatApplicationSyntax(VarBind_t *var_bind) {
     Counter64_t aux;
     long value; unsigned long u_value;
     char *string;
-    result -> oid = getNameFromObjectName(var_bind -> name);
+    result -> oid = var_bind -> name;
     switch (appSyn.present) {
         case ApplicationSyntax_PR_NOTHING:
             result -> type = NOTHING;
@@ -103,7 +94,7 @@ ParsedVarBind_t* treatObjectSyntax(VarBind_t *var_bind) {
     switch (var_bind -> choice.choice.value.present) {
         case ObjectSyntax_PR_NOTHING:
             result = malloc(sizeof(ParsedVarBind_t));
-            result -> oid = getNameFromObjectName(var_bind -> name);
+            result -> oid = var_bind -> name;
             result -> type = NOTHING;
             break;
     	case ObjectSyntax_PR_simple:
@@ -122,7 +113,7 @@ ParsedVarBind_t* treatObjectSyntax(VarBind_t *var_bind) {
 ParsedVarBind_t* treatVarbind(VarBind_t *var_bind) {
     ParsedVarBind_t *result = malloc(sizeof(ParsedVarBind_t));
     NULL_t aux;
-    result -> oid = getNameFromObjectName(var_bind -> name);
+    result -> oid = var_bind -> name;
     switch (var_bind -> choice.present) {
         case choice_PR_NOTHING:
             result -> type = NOTHING;
