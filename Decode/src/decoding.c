@@ -143,8 +143,8 @@ void print_var_bind(ParsedVarBind_t vb) {
     // vb -> oid;
     printf("Object oid: %s\n", parseOID(vb.oid));
     switch (vb.type) {
-        case NOTHING:
-            printf("value: NOTHING\n");
+        case UNSPECIFIED:
+            printf("value: unSpecified\n");
             break;
         case INTEGER:
             value = vb.choice.integer_value;
