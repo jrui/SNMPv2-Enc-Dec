@@ -80,7 +80,7 @@ int main(int argc, char const *argv[]) {
 void userEncodeMethod_Menu() {
   CLEAR();
   printf("[1] - Produce encode packet from CLI\n");
-  printf("[2] - Encode packet from file\n");
+  printf("[2] - Encode packet from file [WorkInProgress]\n");
   printf("[0] - Exit\n\n");
   printf("Option: ");
 }
@@ -274,6 +274,9 @@ VarBind_t *select_VarBind_Type(int opt, ObjectName_t *obj_name) {
             scanf("%d", &value);
             ret = create_VarBind_endOfMibView(obj_name, (NULL_t) value);
             break;
+          case 6:
+            ret = create_VarBind_Nothing(obj_name);
+            break;
         }
       break;
     case 2:
@@ -291,7 +294,8 @@ void user_objectTypeMenu() {
   printf("[2] - UnSpecified\n");
   printf("[3] - noSuchObject\n");
   printf("[4] - noSuchInstance\n");
-  printf("[5] - endOfMibView1\n\nOption: ");
+  printf("[5] - endOfMibView\n");
+  printf("[6] - Nothing\n\nOption: ");
 }
 
 
@@ -343,6 +347,9 @@ ObjectSyntax_t *select_Syntax_Type(int opt) {
           apps = create_Opaque(string);
           ret = create_ObjSynt_Application(apps);
           break;
+        case 7:
+          apps = create_Nothing();
+          ret = create_ObjSynt_Application(apps);
       }
       break;
     case 2:
@@ -361,7 +368,8 @@ void user_valueType_Menu() {
   printf("[3] - IpAddress\n");
   printf("[4] - CounterValue\n");
   printf("[5] - Unsigned32\n");
-  printf("[6] - Opaque\n\nOption: ");
+  printf("[6] - Opaque\n");
+  printf("[7] - Nothing\n\nOption: ");
 }
 
 
