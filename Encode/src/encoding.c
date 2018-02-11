@@ -58,7 +58,7 @@ int main(int argc, char const *argv[]) {
       printf("Please insert filename: ");
       scanf("%s", string);
       FILE *fp = fopen(string, "wb");
-      fwrite(buff, 1, strlen(buff), fp);
+      fwrite(buff, 1, BUFF_SIZE, fp);
       fclose(fp);
       break;
     case 2:
@@ -70,10 +70,9 @@ int main(int argc, char const *argv[]) {
       addr.sin_addr.s_addr = inet_addr(ip);
       int sock = socket(AF_INET, SOCK_DGRAM, 0);
       socklen_t udp_socket_size = sizeof(addr);
-      int sent = sendto(sock, buff, strlen(buff)+1, 0, (struct sockaddr *)&addr, udp_socket_size);
+      int sent = sendto(sock, buff, BUFF_SIZE, 0, (struct sockaddr *)&addr, udp_socket_size);
       break;
     case 3:
-      printf("%s, %d\n", buff, strlen(buff));
       printf("%X\n", buff);
       break;
   }
