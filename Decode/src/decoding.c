@@ -183,7 +183,7 @@ void read_from_udp(int port, FILE *fp) {
 }
 
 void print_var_bind(ParsedVarBind_t vb, FILE *fp) {
-    INTEGER_t *integer;
+    INTEGER_t integer;
     long value; unsigned long u_value;
     int i;
     char *string;
@@ -210,10 +210,17 @@ void print_var_bind(ParsedVarBind_t vb, FILE *fp) {
             break;
         case OBJECT_ID:
             //not done
-            fprintf(fp, "value: object_id\n");
+            fprintf(fp, "value: ");
+            int *oid = parseOID(vb.choice.object_id_value);
+            for(i = 0; i < vb.oid.size; i++) {
+                fprintf(fp, "%d", oid[i]);
+                if(i != vb.oid.size - 1)
+                    fprintf(fp, ".");
+            }
+            fprintf(fp, "\n");
             break;
         case IP_ADDRESS:
-            string = (char *) vb.choice.ipAddress_value -> buf;
+            string = (char *) vb.choice.ipAddress_value.buf;
             fprintf(fp, "value: %s\n", string);
             break;
         case COUNTER_32:
@@ -221,8 +228,8 @@ void print_var_bind(ParsedVarBind_t vb, FILE *fp) {
             fprintf(fp, "value: %d\n", value);
             break;
         case COUNTER_64:
-            integer = (INTEGER_t *) vb.choice.counter_64_value;
-            asn_INTEGER2long(integer, &value);
+            integer = (INTEGER_t) vb.choice.counter_64_value;
+            asn_INTEGER2long(&integer, &value);
             fprintf(fp, "value: %d\n", value);
             break;
         case TIMETICKS:

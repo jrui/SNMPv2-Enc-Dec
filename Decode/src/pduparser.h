@@ -38,10 +38,10 @@ typedef struct ParsedVarBind {
         NULL_t endOfMibView;
         long integer_value;
         char* string_value;
-        OBJECT_IDENTIFIER_t* object_id_value;
-        IpAddress_t* ipAddress_value;
+        OBJECT_IDENTIFIER_t object_id_value;
+        IpAddress_t ipAddress_value;
         long counter_32_value;
-        Counter64_t* counter_64_value;
+        Counter64_t counter_64_value;
         long timeticks_value;
         char* opaque;
         unsigned long unsigned_int_value;

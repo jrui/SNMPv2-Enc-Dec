@@ -2,6 +2,7 @@
 
 #include <pduparser.h>
 
+
 /*
 * Helper function to treat SimpleSyntax inside a ObjectSyntax,
 * based on what's inside
@@ -29,7 +30,7 @@ ParsedVarBind_t* treatSimpleSyntax(VarBind_t *var_bind) {
             break;
         case SimpleSyntax_PR_objectID_value:
             result -> type = OBJECT_ID;
-            result -> choice.object_id_value = &simpleSyn.choice.objectID_value;
+            result -> choice.object_id_value = simpleSyn.choice.objectID_value;
             break;
     }
     return result;
@@ -54,7 +55,7 @@ ParsedVarBind_t* treatApplicationSyntax(VarBind_t *var_bind) {
             break;/* No components present */
         case ApplicationSyntax_PR_ipAddress_value:
             result -> type = IP_ADDRESS;
-            result -> choice.ipAddress_value = &appSyn.choice.ipAddress_value;
+            result -> choice.ipAddress_value = appSyn.choice.ipAddress_value;
             break;
         case ApplicationSyntax_PR_counter_value:
             result -> type = COUNTER_32;
@@ -74,7 +75,7 @@ ParsedVarBind_t* treatApplicationSyntax(VarBind_t *var_bind) {
         case ApplicationSyntax_PR_big_counter_value:
             result -> type = COUNTER_64;
             aux = appSyn.choice.big_counter_value;
-            result -> choice.counter_64_value = &aux;
+            result -> choice.counter_64_value = aux;
             break;
         case ApplicationSyntax_PR_unsigned_integer_value:
             result -> type = UNSIGNED_INT_32;
