@@ -3,10 +3,16 @@
 
 #include <decodetypes.h>
 #include <pduparser.h>
+#include <INTEGER.h>
 
 int menu();
 void read_from_file(char *fileName);
 void read_from_udp(int port);
+char* parseOID(uint8_t *oid);
+void print_var_bind(ParsedVarBind_t vb);
+void print_message_info(Message_t *msg);
+void print_data_pdu(Message_t *msg, ParsedPdu_t *parsedPDU, char *type);
+void print_data_bulk_pdu(Message_t *msg, ParsedBulkPdu_t *parsedPDU);
 
 
 int main(int argc, char const *argv[]) {
@@ -43,44 +49,43 @@ int menu() {
   return opt;
 }
 
-void print_Data(ParsedPdu_t *parsedPDU) {
-    //print decoded PDU
-}
-
-void parse_pdu(PDUs_t *pdu) {
+void parse_pdu(Message_t *msg, PDUs_t *pdu) {
     ParsedPdu_t *parsed = NULL;
     ParsedBulkPdu_t *parsedBulk = NULL;
     switch (pdu -> present) {
         case PDUs_PR_get_request:
             parsed = parse_GetRequest(&(pdu -> choice.get_request));
+            print_data_pdu(msg, parsed, "get-request");
             break;
     	case PDUs_PR_get_next_request:
             parsed = parse_GetNextRequest(&(pdu -> choice.get_next_request));
+            print_data_pdu(msg, parsed, "get-next-request");
             break;
     	case PDUs_PR_get_bulk_request:
             parsedBulk = parse_GetBulkRequest(&(pdu -> choice.get_bulk_request));
+            print_data_bulk_pdu(msg, parsedBulk);
             break;
     	case PDUs_PR_response:
             parsed = parse_Response(&(pdu -> choice.response));
+            print_data_pdu(msg, parsed, "response");
             break;
     	case PDUs_PR_set_request:
             parsed = parse_SetRequest(&(pdu -> choice.set_request));
+            print_data_pdu(msg, parsed, "set-request");
             break;
     	case PDUs_PR_inform_request:
             parsed = parse_InformRequest(&(pdu -> choice.inform_request));
+            print_data_pdu(msg, parsed, "inform-request");
             break;
     	case PDUs_PR_snmpV2_trap:
             parsed = parse_SnmpV2Trap(&(pdu -> choice.snmpV2_trap));
+            print_data_pdu(msg, parsed, "snmpV2-trap");
             break;
     	case PDUs_PR_report:
             parsed = parse_Report(&(pdu -> choice.report));
+            print_data_pdu(msg, parsed, "report");
             break;
     }
-    if(parsed == NULL) {
-        if(parsedBulk == NULL);
-        else {}
-    }
-    else {}
 }
 
 void decode_Data(char *buffer, int bs) {
@@ -94,7 +99,7 @@ void decode_Data(char *buffer, int bs) {
         if(decPDU.status.consumed != -1) {
             //DEBUGGING
             //xer_fprint(fp, &asn_DEF_PDUs, decPDU.choice.pdu);
-            parse_pdu(decPDU.choice.pdu);
+            parse_pdu(decMessage.choice.message, decPDU.choice.pdu);
         } else perror("decode failed on pdu");
     } else perror("decode failed on message");
 }
@@ -124,4 +129,89 @@ void read_from_udp(int port) {
             (struct sockaddr *)&addr, &udp_socket_size);
 
   decode_Data(buffer, recv);
+}
+
+void print_var_bind(ParsedVarBind_t vb) {
+    INTEGER_t *integer;
+    long value; unsigned long u_value;
+    char *string;
+    // vb -> oid;
+    printf("Object oid: %s\n", parseOID(vb.oid));
+    switch (vb.type) {
+        case NOTHING:
+            printf("value: NOTHING\n");
+            break;
+        case INTEGER:
+            value = vb.choice.integer_value;
+            printf("value: %d\n", value);
+            break;
+        case STRING:
+            string = vb.choice.string_value;
+            printf("value: %s\n", string);
+            break;
+        case OBJECT_ID:
+            //not done
+            printf("value: object_id\n");
+            break;
+        case IP_ADDRESS:
+            string = (char *) vb.choice.ipAddress_value -> buf;
+            printf("value: %s\n", string);
+            break;
+        case COUNTER_32:
+            value = vb.choice.counter_32_value;
+            printf("value: %d\n", value);
+            break;
+        case COUNTER_64:
+            integer = (INTEGER_t *) vb.choice.counter_64_value;
+            asn_INTEGER2long(integer, &value);
+            printf("value: %d\n", value);
+            break;
+        case TIMETICKS:
+            value = vb.choice.timeticks_value;
+            printf("value: %d\n", value);
+            break;
+        case OPAQUE:
+            string = vb.choice.opaque;
+            printf("value: %s\n", string);
+            break;
+        case UNSIGNED_INT_32:
+            u_value = vb.choice.unsigned_int_value;
+            printf("value: %d", u_value);
+            break;
+    }
+}
+
+char* parseOID(uint8_t *oid) {
+    //not done
+    return (char*) oid;
+}
+
+void print_message_info(Message_t *msg) {
+    char *string = (char *) msg -> community.buf;
+    printf("Version: %d\n", msg -> version);
+    printf("Community string: %s\n", string);
+}
+
+void print_data_pdu(Message_t *msg, ParsedPdu_t *parsedPDU, char *type) {
+    ParsedVarBind_t *var_bindings = parsedPDU -> variable_bindings;
+    int size = parsedPDU -> size, i;
+    print_message_info(msg);
+    printf("%s\n", type);
+    printf("Objects:\n");
+    for(i = 0; i < size; i++) {
+        print_var_bind(var_bindings[i]);
+    }
+}
+
+void print_data_bulk_pdu(Message_t *msg, ParsedBulkPdu_t *parsedPDU) {
+    ParsedVarBind_t *var_bindings = parsedPDU -> variable_bindings;
+    int size = parsedPDU -> size, i;
+    print_message_info(msg);
+    printf("get-bulk-request\n");
+    printf("nr=%d ", parsedPDU -> non_repeaters);
+    printf("mr=%d ", parsedPDU -> max_repetitions);
+    printf("\nObjects:\n");
+    for(i = 0; i < size; i++) {
+        print_var_bind(var_bindings[i]);
+    }
 }
