@@ -11,8 +11,7 @@ SimpleSyntax_t* create_SimpleInteger(long integerValue) {
 
 SimpleSyntax_t* create_SimpleString(char* stringValue) {
     SimpleSyntax_t* simple;
-    int size = strlen(stringValue);
-    OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t) * size);
+    OCTET_STRING_t* octetString = malloc(sizeof(OCTET_STRING_t));
     int res = OCTET_STRING_fromString(octetString, stringValue);
     simple = calloc(1, sizeof(SimpleSyntax_t));
     if(res < 0) {
