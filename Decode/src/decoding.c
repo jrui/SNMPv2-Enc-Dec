@@ -2,19 +2,22 @@
 #include <unistd.h>
 #include <decodetypes.h>
 
-
 int menu();
 void read_from_file();
 void read_from_udp(int port);
+void print_Data(FILE *fp);
 
 
 int main(int argc, char const *argv[]) {
   int opt, port = 9999;
+  char *fileName = malloc(128);
   while((opt = menu()) != 0) {
     switch(opt) {
       case 1:
-        printf("UNSUPORTED\n");
-        //read_from_file();
+        printf("File:\n");
+        //this is not good, using just for this test application
+        scanf("%s", fileName);
+        read_from_file(fileName);
         break;
       case 2:
         printf("Reading Socket on port %d\n\n", port);
@@ -61,7 +64,12 @@ void decode_Data(char *buffer, int bs) {
 }
 
 void read_from_file(char *fileName) {
-  //...
+    unsigned char buffer[1024];
+    int buffer_size = 1024, recv;
+    FILE *ptr;
+    ptr = fopen(fileName, "rb");
+    recv = fread(buffer, buffer_size, 1, ptr);
+    decode_Data(buffer, recv);
 }
 
 
