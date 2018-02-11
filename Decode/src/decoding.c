@@ -24,6 +24,7 @@ int main(int argc, char const *argv[]) {
         printf("File:\n");
         //this is not good, using just for this test application
         scanf("%s", fileName);
+        fileName[strlen(fileName)] = '\0';
         read_from_file(fileName);
         break;
       case 2:
@@ -105,12 +106,16 @@ void decode_Data(char *buffer, int bs) {
 }
 
 void read_from_file(char *fileName) {
-    unsigned char buffer[1024];
-    int buffer_size = 1024, recv;
+    char buffer[1024];
+    int buffer_size = 1024, i = 0;
     FILE *ptr;
     ptr = fopen(fileName, "rb");
-    recv = fread(buffer, buffer_size, 1, ptr);
-    decode_Data(buffer, recv);
+    if(!ptr) {
+		printf("Unable to open file!");
+		return;
+	}
+    while(fread(&(buffer[i++]), 1, 1, ptr) && i < 1024);
+    decode_Data(buffer, i);
 }
 
 
