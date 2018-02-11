@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
+
 #include <decodetypes.h>
+#include <pduparser.h>
 
 int menu();
-void read_from_file();
+void read_from_file(char *fileName);
 void read_from_udp(int port);
-void print_Data(FILE *fp);
 
 
 int main(int argc, char const *argv[]) {
@@ -42,24 +43,59 @@ int menu() {
   return opt;
 }
 
-void print_Data(FILE *fp) {
+void print_Data(ParsedPdu_t *parsedPDU) {
     //print decoded PDU
+}
+
+void parse_pdu(PDUs_t *pdu) {
+    ParsedPdu_t *parsed = NULL;
+    ParsedBulkPdu_t *parsedBulk = NULL;
+    switch (pdu -> present) {
+        case PDUs_PR_get_request:
+            parsed = parse_GetRequest(&(pdu -> choice.get_request));
+            break;
+    	case PDUs_PR_get_next_request:
+            parsed = parse_GetNextRequest(&(pdu -> choice.get_next_request));
+            break;
+    	case PDUs_PR_get_bulk_request:
+            parsedBulk = parse_GetBulkRequest(&(pdu -> choice.get_bulk_request));
+            break;
+    	case PDUs_PR_response:
+            parsed = parse_Response(&(pdu -> choice.response));
+            break;
+    	case PDUs_PR_set_request:
+            parsed = parse_SetRequest(&(pdu -> choice.set_request));
+            break;
+    	case PDUs_PR_inform_request:
+            parsed = parse_InformRequest(&(pdu -> choice.inform_request));
+            break;
+    	case PDUs_PR_snmpV2_trap:
+            parsed = parse_SnmpV2Trap(&(pdu -> choice.snmpV2_trap));
+            break;
+    	case PDUs_PR_report:
+            parsed = parse_Report(&(pdu -> choice.report));
+            break;
+    }
+    if(parsed == NULL) {
+        if(parsedBulk == NULL);
+        else {}
+    }
+    else {}
 }
 
 void decode_Data(char *buffer, int bs) {
     DecodeResult_t decMessage;
     decMessage = decode_Message(buffer, bs);
     if(decMessage.status.consumed != -1) {
-        FILE *fp = stdout;
-        xer_fprint(fp, &asn_DEF_Message, decMessage.choice.message);
+        //DEBUGGING
+        //FILE *fp = stdout;
+        //xer_fprint(fp, &asn_DEF_Message, decMessage.choice.message);
         DecodeResult_t decPDU = decode_PDU(decMessage.choice.message);
         if(decPDU.status.consumed != -1) {
-            xer_fprint(fp, &asn_DEF_PDUs, decPDU.choice.pdu);
-        } else {
-            //need to have warnings like no OID
-            perror("decode failed on pdu");
-            //this needs to be better
-        }
+            //DEBUGGING
+            //xer_fprint(fp, &asn_DEF_PDUs, decPDU.choice.pdu);
+            parse_pdu(decPDU.choice.pdu);
+        } else perror("decode failed on pdu");
     } else perror("decode failed on message");
 }
 
